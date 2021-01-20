@@ -1,27 +1,49 @@
-" hello world "
+" ######################################### "
+" ############# Plugin Begin  ############# "
+" ######################################### "
 call plug#begin('~/.vim/plugged')
 
+Plug 'mileszs/ack.vim'
+Plug 'ayu-theme/ayu-vim'
+Plug 'tpope/vim-surround'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nsf/gocode'
 Plug 'tpope/vim-commentary'
-Plug 'ycm-core/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
 Plug 'leafgarland/typescript-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'ianks/vim-tsx'
+Plug 'chriskempson/base16-vim'
+Plug 'jiangmiao/auto-pairs'
+" new svelte"
+Plug 'leafOfTree/vim-svelte-plugin'
 Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'itchyny/lightline.vim'
+Plug 'rust-lang-nursery/rustfmt'
 Plug 'mattn/emmet-vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'morhetz/gruvbox'
 
 call plug#end()
 
+" ######################################### "
+" ############## Plugin End  ############## "
+" ######################################### "
+
+syntax on
+set termguicolors
+" let ayucolor="mirage"
+" colorscheme default 
+colorscheme base16-google-dark
+highlight Constant ctermfg=lightgreen cterm=bold guifg=lightgreen
+
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+let mapleader=" "
 set number	
 set linebreak	
 set showbreak=~~~
@@ -41,13 +63,17 @@ set shiftwidth=4
 set smartindent	
 set smarttab	
 set softtabstop=4	
+set ai
 
 set ruler	
- 
+
+highlight Pmenu ctermbg=gray guibg=gray 
+highlight Comment ctermfg=green
+
 set undolevels=1000	
 set backspace=indent,eol,start	
 
-" Gitter Gutter "
+" Git Gutter "
 let g:gitgutter_enabled = 1
 let g:gitgutter_highlight_linenrs = 1
 
@@ -64,14 +90,19 @@ set statusline+=%{GitStatus()}
 
 " Keybindings "
 :nmap ; :
+nnoremap <Leader>gg :GoRun<Enter>
+nnoremap <Leader>gt :GoTest<Enter>
 
 " NERDTree "
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-nnoremap <Leader>f :NERDTreeToggle<Enter>
-nnoremap <Leader>s :FZF<Space>
+nnoremap <Leader>t :NERDTreeToggle<Enter>
+
 " remap for fzf "
-"let NERDTreeQuitOnOpen = 1"
+let NERDTreeQuitOnOpen = 1
+
+let g:fzf_preview_window = 'height 50% --border'
+nnoremap <Leader>f :FZF<Enter>
 
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
@@ -82,10 +113,14 @@ if &term =~ '^screen'
 endif
 
 " THEME "
-colorscheme gruvbox
-let g:gruvbox_bold = 1
+" colorscheme dracula 
 
+" RUST "
+let g:rustfmt_auto_save = 1
 
+" ########################### "
+" ###### COC INIT VARS ###### "
+" ###########################
 " start coc handling"
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -169,11 +204,11 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+" nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
