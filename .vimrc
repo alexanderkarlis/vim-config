@@ -5,9 +5,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mileszs/ack.vim'
 Plug 'ayu-theme/ayu-vim'
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
 Plug 'rust-lang/rust.vim'
-Plug 'fatih/vim-go', { 'tag': '*' }
+" Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nsf/gocode'
 Plug 'tpope/vim-commentary'
@@ -38,13 +38,11 @@ syntax on
 set termguicolors
 " let ayucolor="mirage"
 " colorscheme default 
-colorscheme base16-google-dark
+colorscheme base16-gruvbox-dark-pale
 highlight Constant ctermfg=lightgreen cterm=bold guifg=lightgreen
 
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
 let mapleader=" "
-set number	
+set number relativenumber
 set linebreak	
 set showbreak=~~~
 set textwidth=100	
@@ -67,11 +65,14 @@ set ai
 
 set ruler	
 
-highlight Pmenu ctermbg=gray guibg=gray 
+highlight Pmenu ctermbg=blue guibg=gray 
 highlight Comment ctermfg=green
 
 set undolevels=1000	
 set backspace=indent,eol,start	
+
+" Use tab for %
+" vnoremap <unique> <tab> %
 
 " Git Gutter "
 let g:gitgutter_enabled = 1
@@ -92,11 +93,18 @@ set statusline+=%{GitStatus()}
 :nmap ; :
 nnoremap <Leader>gg :GoRun<Enter>
 nnoremap <Leader>gt :GoTest<Enter>
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
+
+"Go doc popup "
+let g:go_doc_window_popup_window = 1
 
 " NERDTree "
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-nnoremap <Leader>t :NERDTreeToggle<Enter>
+nnoremap <Leader>v :NERDTreeToggle<Enter>
 
 " remap for fzf "
 let NERDTreeQuitOnOpen = 1
