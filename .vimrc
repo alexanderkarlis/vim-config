@@ -3,13 +3,13 @@
 " ######################################### "
 call plug#begin('~/.vim/plugged')
 
+Plug 'tpope/vim-surround'
 Plug 'mileszs/ack.vim'
 Plug 'ayu-theme/ayu-vim'
-" Plug 'tpope/vim-surround'
 Plug 'rust-lang/rust.vim'
-" Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nsf/gocode'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-gitgutter'
 Plug 'leafgarland/typescript-vim'
@@ -17,28 +17,26 @@ Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'ianks/vim-tsx'
 Plug 'chriskempson/base16-vim'
-Plug 'jiangmiao/auto-pairs'
-" new svelte"
-Plug 'leafOfTree/vim-svelte-plugin'
 Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'itchyny/lightline.vim'
 Plug 'rust-lang-nursery/rustfmt'
 Plug 'mattn/emmet-vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
 " ######################################### "
 " ############## Plugin End  ############## "
 " ######################################### "
-
 syntax on
 set termguicolors
 " let ayucolor="mirage"
 " colorscheme default 
-colorscheme base16-gruvbox-dark-pale
+colorscheme base16-gruvbox-dark-medium
 highlight Constant ctermfg=lightgreen cterm=bold guifg=lightgreen
 
 let mapleader=" "
@@ -65,7 +63,7 @@ set ai
 
 set ruler	
 
-highlight Pmenu ctermbg=blue guibg=gray 
+highlight Pmenu ctermbg=blue guibg=black 
 highlight Comment ctermfg=green
 
 set undolevels=1000	
@@ -97,6 +95,8 @@ noremap <Leader>y "*y
 noremap <Leader>p "*p
 noremap <Leader>Y "+y
 noremap <Leader>P "+p
+inoremap <C-e> <C-o>$
+inoremap <C-a> <C-o>0
 
 "Go doc popup "
 let g:go_doc_window_popup_window = 1
@@ -105,13 +105,29 @@ let g:go_doc_window_popup_window = 1
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 nnoremap <Leader>v :NERDTreeToggle<Enter>
-
-" remap for fzf "
 let NERDTreeQuitOnOpen = 1
 
-let g:fzf_preview_window = 'height 50% --border'
+"" FZF
 nnoremap <Leader>f :FZF<Enter>
+nnoremap <silent> <Leader>r :Rg<CR>
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --hidden\ --glob "!.git"
+endif
+nnoremap <leader>R :Rg <c-r><c-w>
+""AIRLINE
+let g:airline_theme='base16_gruvbox_dark_hard'
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#enabled = 1           " enable airline tabline                                                           
+let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline                                            
+let g:airline#extensions#tabline#tab_min_count = 2     " minimum of 2 tabs needed to display the tabline                                  
+let g:airline#extensions#tabline#show_splits = 0       " disables the buffer name that displays on the right of the tabline               
+let g:airline#extensions#tabline#show_tab_nr = 0       " disable tab numbers                                                              
+let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird ornage arr
+autocmd BufAdd * call airline#extensions#tabline#buflist#invalidate()
+autocmd BufDelete * call airline#extensions#tabline#buflist#invalidate()
 
+""TMUX
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
@@ -212,11 +228,11 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
-" nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-" xmap <leader>f  <Plug>(coc-format-selected)
-" nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>fm  <Plug>(coc-format-selected)
+nmap <leader>fm  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
