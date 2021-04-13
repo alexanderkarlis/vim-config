@@ -3,12 +3,16 @@
 " ######################################### "
 call plug#begin('~/.vim/plugged')
 
+Plug 'JamshedVesuna/vim-markdown-preview'
+Plug 'cespare/vim-toml'
+Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'mileszs/ack.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'rust-lang/rust.vim'
+Plug 'vim-test/vim-test'
+Plug 'neoclide/coc-jest'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'nsf/gocode'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-gitgutter'
@@ -34,9 +38,7 @@ call plug#end()
 " ######################################### "
 syntax on
 set termguicolors
-" let ayucolor="mirage"
-" colorscheme default 
-colorscheme base16-gruvbox-dark-medium
+colorscheme base16-monokai
 highlight Constant ctermfg=lightgreen cterm=bold guifg=lightgreen
 
 let mapleader=" "
@@ -72,6 +74,11 @@ set backspace=indent,eol,start
 " Use tab for %
 " vnoremap <unique> <tab> %
 
+" vim markdown "
+let vim_markdown_preview_toggle=1
+let vim_markdown_preview_github=1
+let vim_markdown_preview_browser='Google Chrome'
+
 " Git Gutter "
 let g:gitgutter_enabled = 1
 let g:gitgutter_highlight_linenrs = 1
@@ -91,12 +98,15 @@ set statusline+=%{GitStatus()}
 :nmap ; :
 nnoremap <Leader>gg :GoRun<Enter>
 nnoremap <Leader>gt :GoTest<Enter>
-noremap <Leader>y "*y
-noremap <Leader>p "*p
-noremap <Leader>Y "+y
-noremap <Leader>P "+p
+noremap <Leader>y "*y$
+noremap <Leader>p "*p$
+noremap <Leader>Y "+y$
+noremap <Leader>P "+p$
 inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>0
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nnoremap <Leader>b :bn<Enter>
 
 "Go doc popup "
 let g:go_doc_window_popup_window = 1
@@ -110,10 +120,11 @@ let NERDTreeQuitOnOpen = 1
 "" FZF
 nnoremap <Leader>f :FZF<Enter>
 nnoremap <silent> <Leader>r :Rg<CR>
-if executable('rg')
-    set grepprg=rg\ --vimgrep\ --hidden\ --glob "!.git"
-endif
+" if executable('rg')
+"     set grepprg=rg\ --vimgrep\ --hidden\ --glob "!.git"
+" endif
 nnoremap <leader>R :Rg <c-r><c-w>
+
 ""AIRLINE
 let g:airline_theme='base16_gruvbox_dark_hard'
 let g:airline#extensions#tabline#tab_nr_type = 1
@@ -135,9 +146,6 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
-
-" THEME "
-" colorscheme dracula 
 
 " RUST "
 let g:rustfmt_auto_save = 1
