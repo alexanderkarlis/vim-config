@@ -3,6 +3,7 @@
 " ######################################### "
 call plug#begin('~/.vim/plugged')
 
+Plug 'ryanoasis/vim-devicons'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'cespare/vim-toml'
 Plug 'preservim/nerdtree'
@@ -36,9 +37,11 @@ call plug#end()
 " ######################################### "
 " ############## Plugin End  ############## "
 " ######################################### "
+"
+:imap jj <Esc>
 syntax on
 set termguicolors
-colorscheme base16-monokai
+colorscheme base16-material
 highlight Constant ctermfg=lightgreen cterm=bold guifg=lightgreen
 
 let mapleader=" "
@@ -79,6 +82,9 @@ let vim_markdown_preview_toggle=1
 let vim_markdown_preview_github=1
 let vim_markdown_preview_browser='Google Chrome'
 
+" DEV ICONS "
+let g:webdevicons_enable_nerdtree = 1
+
 " Git Gutter "
 let g:gitgutter_enabled = 1
 let g:gitgutter_highlight_linenrs = 1
@@ -109,7 +115,7 @@ nmap [h <Plug>(GitGutterPrevHunk)
 nnoremap <Leader>b :bn<Enter>
 
 "Go doc popup "
-let g:go_doc_window_popup_window = 1
+let g:go_doc_window_popup_window = 0
 
 " NERDTree "
 autocmd StdinReadPre * let s:std_in=1
